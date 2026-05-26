@@ -1,6 +1,7 @@
 package KimHien.appquanlychitieucanhan;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,6 +46,11 @@ public class TrangChuFragment extends Fragment {
         adapter = new ThuChiAdapter(getContext(), danhSachThuChi);
         rcvLichSu.setAdapter(adapter);
 
+        com.google.android.material.floatingactionbutton.FloatingActionButton fabAdd = view.findViewById(R.id.fab_trangchu_add);
+        fabAdd.setOnClickListener(v -> {
+            android.content.Intent intent = new Intent(getContext(), GhiChepThuChiActivity.class);
+            startActivity(intent);
+        });
         // Đón nhận sự kiện từ Adapter
         adapter.setOnItemClickListener(new ThuChiAdapter.OnItemClickListener() {
             @Override
