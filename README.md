@@ -1,7 +1,7 @@
 #  AppQuanLiChiTieuCaNhan
 
 
-## 🚀 Giai đoạn 1: Xây Dựng Giao Diện Gốc & Bộ Lọc Nhập Liệu
+## 🚀 Giai đoạn 1: Xây Dựng Giao Diện Gốc
 
 ### I. Giao Diện Màn Hình Trang Chủ
 Màn hình trung tâm giúp người dùng có cái nhìn tổng quan về tình hình tài chính cá nhân ngay khi mở ứng dụng.
