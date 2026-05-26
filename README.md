@@ -68,5 +68,12 @@ Giúp tối ưu hóa dữ liệu và loại bỏ các khoản ghi chép không c
     * `HỦY`: Đóng hộp thoại, an toàn giữ nguyên giao dịch.
     * `XÓA`: Thực thi lệnh `dbHelper.deleteThuChi(id)` xóa vĩnh viễn bản ghi khỏi SQLite.
 **Hành động sau khi xóa:** Ứng dụng sẽ tự động tính toán lại dòng tiền (Số dư khả dụng, Tổng Thu, Tổng Chi) trên thẻ báo cáo và cập nhật lại giao diện `RecyclerView`.
+---
+
+## 🔄 Giai đoạn 3:
+<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/7b24a711-7228-4d92-ae23-e41a32dc0bc2" />
+
+<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/d4e90162-ccff-4653-afd3-cfb083e98571" />
+
 
 
