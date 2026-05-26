@@ -19,10 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Ánh xạ các thành phần trên giao diện XML
+        // Ánh xạ các thành phần trên giao diện
         bottomNavigation = findViewById(R.id.bottom_navigation);
-        fabAdd = findViewById(R.id.fab_add);
-
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_chart) {
                     selectedFragment = new Fragment();
                 } else if (id == R.id.nav_budget) {
-                    selectedFragment = new Fragment();
+                    selectedFragment = new NganSachFragment();
                 } else if (id == R.id.nav_profile) {
                     selectedFragment = new Fragment();
                 }
@@ -57,10 +55,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Xử lý sự kiện bấm vào nút Nổi để mở màn hình Ghi Chép Thu Chi
-        fabAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, GhiChepThuChiActivity.class);
-            startActivity(intent);
-        });
     }
 }
