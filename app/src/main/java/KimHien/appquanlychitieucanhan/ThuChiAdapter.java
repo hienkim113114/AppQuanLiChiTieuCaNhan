@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -15,11 +16,20 @@ import java.util.List;
 public class ThuChiAdapter extends RecyclerView.Adapter<ThuChiAdapter.ThuChiViewHolder> {
     private Context context;
     private List<ThuChiModel> danhSachThuChi;
+    private OnItemClickListener listener;
+    // Thêm cả sự kiện Click và LongClick vào Interface, nhấn vào giao dịch để xem chi tiết và sua, LongClick để xóa
+    public interface OnItemClickListener {
+        void onItemClick(ThuChiModel item, int position);     // Bấm thường để xem Chi tiết & Sửa
+        void onItemLongClick(ThuChiModel item, int position); // Bấm giữ lâu để Xóa luôn
+    }
+    // Hàm để Fragment gắn sự kiện vào
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
     public ThuChiAdapter(Context context, List<ThuChiModel> danhSachThuChi) {
         this.context = context;
         this.danhSachThuChi = danhSachThuChi;
     }
-
     @NonNull
     @Override
     public ThuChiViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,10 +59,25 @@ public class ThuChiAdapter extends RecyclerView.Adapter<ThuChiAdapter.ThuChiView
             holder.txtSoTien.setTextColor(Color.parseColor("#EF4444"));
             holder.imgBieuTuong.setImageResource(android.R.drawable.ic_delete); // icon chi
         }
+        // Xử lý sự kiện Click
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null && position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(item, position);
+            }
+        });
+
+        // Xử lý sự kiện Long Click
+        holder.itemView.setOnLongClickListener(v -> {
+            if (listener != null && position != RecyclerView.NO_POSITION) {
+                listener.onItemLongClick(item, position);
+            }
+            return true;
+        });
     }
 
     @Override
     public int getItemCount() {
+
         return danhSachThuChi != null ? danhSachThuChi.size() : 0;
     }
     // Lớp ViewHolder đe quản lý các thành phần UI trong file XML

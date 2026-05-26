@@ -1,11 +1,15 @@
 package KimHien.appquanlychitieucanhan;
 
+import android.app.AlertDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -41,9 +45,87 @@ public class TrangChuFragment extends Fragment {
         adapter = new ThuChiAdapter(getContext(), danhSachThuChi);
         rcvLichSu.setAdapter(adapter);
 
+        // Đón nhận sự kiện từ Adapter
+        adapter.setOnItemClickListener(new ThuChiAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ThuChiModel item, int position) {
+                hienThiHopThoaiXemVaSua(item);
+            }
+
+            @Override
+            public void onItemLongClick(ThuChiModel item, int position) {
+                xacNhanXoa(item);
+            }
+        });
         return view;
     }
 
+    // Hộp thoại xem và sửa trực tiếp
+    private void hienThiHopThoaiXemVaSua(ThuChiModel item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Chi tiết & Chỉnh sửa");
+
+        // Các ô nhập liệu và điền sẵn dữ liệu cũ để người dùng vừa xem vừa sửa
+        final EditText edtSuaSoTien = new EditText(getContext());
+        edtSuaSoTien.setHint("Số tiền");
+        edtSuaSoTien.setText(String.valueOf((int) item.getSoTien()));
+        edtSuaSoTien.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+
+        final EditText edtSuaGhiChu = new EditText(getContext());
+        edtSuaGhiChu.setHint("Ghi chú");
+        edtSuaGhiChu.setText(item.getGhiChu());
+
+        // Hiện thêm thông tin Danh mục và Ngày
+        TextView txtThongTinPhu = new TextView(getContext());
+        txtThongTinPhu.setText("Danh mục: " + item.getTenDanhMuc() + " | Ngày: " + item.getNgay());
+        txtThongTinPhu.setPadding(10, 0, 10, 20);
+        txtThongTinPhu.setTextSize(14);
+
+        LinearLayout layoutPopup = new LinearLayout(getContext());
+        layoutPopup.setOrientation(LinearLayout.VERTICAL);
+        layoutPopup.setPadding(50, 40, 50, 30);
+        layoutPopup.addView(txtThongTinPhu);
+        layoutPopup.addView(edtSuaSoTien);
+        layoutPopup.addView(edtSuaGhiChu);
+        builder.setView(layoutPopup);
+
+        // Bấm nút cập nhật sẽ lưu lại các thay đổi
+        builder.setPositiveButton("CẬP NHẬT", (dialog, which) -> {
+            String chuoiSoTien = edtSuaSoTien.getText().toString().trim();
+            String ghiChuMoi = edtSuaGhiChu.getText().toString().trim();
+
+            if (chuoiSoTien.isEmpty()) {
+                Toast.makeText(getContext(), "Số tiền không được bỏ trống!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            double soTienMoi = Double.parseDouble(chuoiSoTien);
+
+            // Ghi đè dữ liệu mới xuống SQLite
+            dbHelper.updateThuChi(item.getId(), item.getLoai(), soTienMoi, item.getMaDanhMuc(), item.getNgay(), ghiChuMoi);
+            Toast.makeText(getContext(), "Đã cập nhật thay đổi!", Toast.LENGTH_SHORT).show();
+
+            docDuLieuTuSQLite(); // Làm mới giao diện Trang Chủ
+        });
+
+        builder.setNegativeButton("HỦY BỎ", null);
+        builder.show();
+    }
+    //HỘP THOẠI XÁC NHẬN XÓA
+    private void xacNhanXoa(ThuChiModel item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Xác nhận xóa lịch sử");
+        builder.setMessage("Bạn có chắc chắn muốn xóa giao dịch '" + item.getTenDanhMuc() + "' này không?");
+
+        builder.setPositiveButton("XÓA", (dialog, which) -> {
+            dbHelper.deleteThuChi(item.getId());
+            Toast.makeText(getContext(), "Đã xóa khoản ghi thành công!", Toast.LENGTH_SHORT).show();
+            docDuLieuTuSQLite();
+        });
+
+        builder.setNegativeButton("HỦY", null);
+        builder.show();
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -90,13 +172,11 @@ public class TrangChuFragment extends Fragment {
 
         double soDu = tongThu - tongChi;
         DecimalFormat formatter = new DecimalFormat("#,###");
-
+        // Cập nhật các con số tổng lên giao diện
         txtTongSoDu.setText(formatter.format(soDu) + " đ");
         txtTongThu.setText(formatter.format(tongThu) + " đ");
         txtTongChi.setText(formatter.format(tongChi) + " đ");
 
-        adapter.notifyDataSetChanged();
-        txtTongSoDu.setText(formatter.format(soDu) + " đ");
 
         // Thông báo cho Adapter biết dữ liệu đã thay đổi để vẽ lại danh sách trên màn hình
         adapter.notifyDataSetChanged();

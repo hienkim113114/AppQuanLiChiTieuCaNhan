@@ -130,7 +130,7 @@
             android:layout_marginBottom="24dp"
             android:background="@android:drawable/editbox_background_normal"
             android:gravity="top|start"
-            android:hint="Nội dung chi tiết (Ví dụ: Ăn bún chả cùng cơ quan...)"
+            android:hint="Nội dung chi tiết (Ví dụ: Ăn bún chả cùng đồng nghiệp...)"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:padding="10dp"
