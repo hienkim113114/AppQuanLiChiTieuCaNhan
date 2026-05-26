@@ -1,55 +1,72 @@
-# AppQuanLiChiTieuCaNhan
-Giai đoạn 1
-<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/f03a0c8f-4b4c-47cf-b8bb-2f454a6149a6" />
-I.Giao diện màn hình trang chủ 
- 1.1 Khu vực chào hỏi hiển thịn lời chào với tài khoản người dùng , góc phhair có biểu tượng hồ sơ cá nhân.Ý nghĩa Giúp người dùng nhận diện ngay tài khoản đang đăng nhập.
-1.2 Thẻ báo cáo tài chính tổng quan
-  Tổng số dư khả dụng: Con số lớn nhất (20.000 đ) thể hiện số tiền thực tế còn lại mà người       dùng  đang có (được tính toán tự động bằng: Tổng Thu - Tổng Chi).
-  Phía dưới chia làm 2 cột rõ rệt:
-    Cột Thu nhập (Màu xanh lá, có mũi tên hướng xuống) thể hiện tổng số tiền đã kiếm được.
-    Cột Chi tiêu (Màu đỏ, có mũi tên hướng lên) thể hiện tổng số tiền đã tiêu xài.
-1.3.Lịch sử giao dịch trực quan
-  Danh sách cuộn (RecyclerView): Hiển thị các khoản thu/chi phát sinh được sắp xếp theo thời       gian mới nhất (Ví dụ: Khoản được thưởng ngày 2026-05-25).
-  Thiết kế phân loại:
-    Thu nhập:icon dấu cộng (+) màu xanh lá và hiển thị số tiền cộng (+20.000 đ) .
-    Chi tiêu:icon dấu trừ (-) màu đỏ và hiển thị số tiền trừ(-20.000 đ) .
-    ý nghĩa: giúp người dùng phân biệt chớp nhoáng với các khoản chi tiêu/thu nhập một cách dễ         dàng mà không bị nhầm lẫn.
-1.4.Thanh điều hướng và nút thêm giao dịch 
-  Nút bấm nổi (+):Nằm ở góc phải,chỉ cần chạm nhẹ, người dùng sẽ mở ngay màn hình nhập liệu để thêm nhanh một khoản Thu hoặc Chi mới.
-  Thanh điều hướng dưới (Bottom Navigation Bar): Gồm 4 Tab chức năng để chuyển đổi nhanh qua các phân hệ khác của app: Trang chủ, Thống kê biểu đồ, Hạn mức ngân sách, và Quản lý tài khoản.
-  
+#  AppQuanLiChiTieuCaNhan
 
-II.Giao diện màn Hình ghi chép thu/chi
-  Đây là giao diện nhập liệu thủ công (Form) khi người dùng bấm vào nút hành động nổi (+) ở Trang chủ
-<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/73ebf8b3-a974-469a-9358-e8800e6abf9a" />
 
-2.1.Phân loại dòng tiền 
-  Gồm hai nút tùy chọn độc nhất: Khoản CHI (-) và Khoản THU (+).Giúp hệ thống xác định bản ghi thuộc loại hình nào để thực hiện phép toán cộng/trừ vào tổng số dư của ví.
-2.2.Nhập số tiền phát sinh
-  Người dùng tự nhập số tiền thực tế của giao dịch
-2.3.Danh mục phân loại
-  Menu lựa chọn nhanh,khi chạm vào, một danh sách các danh mục mẫu (Ăn uống, Học tập, Đi lại,     Lương, Thưởng...) sẽ thả xuống để người dùng chọn nhanh.
-2.4.Ngày tháng phát sinh giao dịch
-  Khi người dùng chạm vào ô này, ứng dụng sẽ không bắt họ gõ lịch mà tự động mở ra một Hộp thoại lịch đểchọn ngày. Hệ thống sau đó tự động định dạng và điền vào ô theo chuẩn Năm-Tháng-Ngày để lưu chính xác vào SQLite.
-2.5.Ghi chú thêm
-  Cho phép người dùng nhập nội dung cụ thể về khoản thu/chi
-Giai đoạn 2 :
-I.chức năng sửa giao dịch
-<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/68598c1f-050d-4881-a8b5-1ee6dc3fd854" />
+## 🚀 Giai đoạn 1: Xây Dựng Giao Diện Gốc & Bộ Lọc Nhập Liệu
 
-1.1.Cơ chế kích hoạt chức năng
-Khi người dùng thực hiện hành vi Chạm nhẹ vào một dòng bất kỳ trên danh sách Lịch sử giao dịch, ứng dụng sẽ  khởi tạo và bật lên một hộp thoại hệ thống (AlertDialog) mang tên "Chi tiết & Chỉnh sửa".Hộp thoại này đóng vai trò hiển thị và chỉnh sửa , ở đây người dùng có thể chỉnh sửa lại thông tin giao dịch nếu lỡ nhập sai thông tin trước đó .
-1.2.Cơ chế xử lý của hai nút hành động
-Nút "HỦY BỎ": Đóng hộp thoại ngay lập tức, giữ nguyên toàn bộ dữ liệu ban đầu và không thực hiện bất kỳ thay đổi nào dưới cơ sở dữ liệu.
-Nút "CẬP NHẬT": hệ thống sẽ lấy thoonng tin mới nhất mà người dùng vừa sửa ghi đè (Update) trực tiếp vào dòng dữ liệu có id tương ứng trong bảng thuchi của SQLite.
+### I. Giao Diện Màn Hình Trang Chủ (Home Screen)
+Màn hình trung tâm giúp người dùng có cái nhìn tổng quan về tình hình tài chính cá nhân ngay khi mở ứng dụng.
 
-II.chức năng xóa giao dịch
-<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/faf28139-13db-40f0-98f5-f7a88c0fabac" />
-2.1.Cơ chế kích hoạt chức năng
-Khi người dùng Ấn giữ lâu (Long Click) vào một dòng bất kỳ trên danh sách Lịch sử giao dịch, ứng dụng sẽ lập tức kích hoạt và hiển thị Hộp thoại AlertDialog mang tên "Xác nhận xóa lịch sử".Hệ thống tự động bốc tên danh mục của khoản ghi đó và hỏi xác nhận người dùng có thực sự muốn xóa không. Việc này giúp người dùng kiểm tra lại chính xác mục mình định xóa, tránh tình trạng ấn nhầm.
-2.2.Cơ chế xử lý của hai nút hành động
-Nút "HỦY": Đóng hộp thoại, giữ nguyên giao dịch và không làm thay đổi dữ liệu.
-Nút "XÓA": Hệ thống thực thi lệnh dbHelper.deleteThuChi(id) để xóa vĩnh viễn bản ghi khỏi SQLite. Ngay sau đó, app tự động tính toán lại dòng tiền: số dư khả dụng, tổng thu/chi trên thẻ báo cáo , và dòng lịch sử đó cũng biến mất khỏi danh sách.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f03a0c8f-4b4c-47cf-b8bb-2f454a6149a6" alt="Giao diện trang chủ" width="360" />
+</p>
 
+* **1.1 Khu vực chào hỏi (`Header`):** Hiển thị lời chào cá nhân hóa theo tài khoản người dùng. Góc phải tích hợp biểu tượng hồ sơ (Profile) giúp nhận diện tài khoản đang đăng nhập.
+* **1.2 Thẻ báo cáo tài chính tổng quan (`Dashboard Card`):**
+    * **Tổng số dư khả dụng:** Hiển thị với font chữ lớn nhất, đại diện cho số tiền thực tế còn lại. Hệ thống tự động tính toán theo công thức: 
+        $$\text{Số dư khả dụng} = \text{Tổng Thu} - \text{Tổng Chi}$$
+    * **Cột Thu nhập:** Màu xanh lá kèm mũi tên hướng xuống (⬇️), thể hiện tổng số tiền đã kiếm được.
+    * **Cột Chi tiêu:** Màu đỏ kèm mũi tên hướng lên (⬆️), thể hiện tổng số tiền đã tiêu xài.
+* **1.3 Lịch sử giao dịch trực quan (`RecyclerView`):** Danh sách cuộn hiển thị các khoản thu/chi sắp xếp theo thời gian mới nhất.
+    * 🟢 **Thu nhập:** Icon dấu cộng (+), số tiền hiển thị màu xanh lá (Ví dụ: `+20.000 đ`).
+    * 🔴 **Chi tiêu:** Icon dấu trừ (-), số tiền hiển thị màu đỏ (Ví dụ: `-20.000 đ`).
+    * *Ý nghĩa:* Giúp người dùng phân biệt nhanh chóng các khoản thu chi mà không bị nhầm lẫn.
+* **1.4 Thanh điều hướng & Nút thêm nhanh:**
+    * **Nút hành động nổi (FAB - Floating Action Button `+`):** Nằm ở góc phải dưới, chạm nhẹ để mở ngay màn hình nhập liệu.
+    * **Thanh điều hướng dưới (Bottom Navigation Bar):** Gồm 4 tab chức năng: *Trang chủ*, *Thống kê biểu đồ*, *Hạn mức ngân sách*, và *Quản lý tài khoản*.
+
+---
+
+### II. Giao Diện Màn Hình Ghi Chép Thu/Chi (Transaction Form)
+Giao diện nhập liệu thủ công xuất hiện khi người dùng ấn vào nút `+` tại Trang chủ.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/73ebf8b3-a974-469a-9358-e8800e6abf9a" alt="Màn hình ghi chép" width="360" />
+</p>
+
+* **2.1 Phân loại dòng tiền:** Gồm 2 nút tùy chọn độc duy nhất: **Khoản CHI (-)** và **Khoản THU (+)**, giúp hệ thống phân loại chính xác để thực hiện phép toán cộng/trừ vào ví.
+* **2.2 Nhập số tiền phát sinh:** Ô nhập liệu số (Numeric Input) để người dùng điền số tiền thực tế của giao dịch.
+* **2.3 Danh mục phân loại (Category Dropdown):** Menu lựa chọn nhanh với các danh mục mẫu (Ăn uống, Học tập, Đi lại, Lương, Thưởng...), tự động thả xuống khi chạm.
+* **2.4 Ngày tháng phát sinh:** Tích hợp hộp thoại lịch chọn ngày (`DatePickerDialog`). Hệ thống tự động định dạng và điền theo chuẩn `Năm-Tháng-Ngày` (`YYYY-MM-DD`) để lưu trữ chính xác vào SQLite.
+* **2.5 Ghi chú thêm:** Ô nhập văn bản tự do cho phép người dùng ghi chú thông tin chi tiết về khoản thu/chi.
+
+
+## 🔄 Giai đoạn 2: Tính Năng Nâng Cao (Sửa & Xóa Giao Dịch)
+
+### I. Chức Năng Sửa Giao Dịch (Edit Transaction)
+Hỗ trợ người dùng thay đổi thông tin khi lỡ nhập sai dữ liệu trước đó.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/68598c1f-050d-4881-a8b5-1ee6dc3fd854" alt="Chức năng sửa" width="360" />
+</p>
+
+* **1.1 Cơ chế kích hoạt:** Khi người dùng **Chạm nhẹ (Click)** vào một dòng bất kỳ trên danh sách Lịch sử giao dịch, ứng dụng sẽ bật lên một hộp thoại hệ thống `AlertDialog` mang tên **"Chi tiết & Chỉnh sửa"**.
+* **1.2 Cơ chế xử lý nút bấm:**
+    * `HỦY BỎ`: Đóng hộp thoại ngay lập tức, giữ nguyên dữ liệu gốc.
+    * `CẬP NHẬT`: Lấy thông tin mới nhất ghi đè (`UPDATE`) trực tiếp vào dòng dữ liệu có `id` tương ứng trong bảng `thuchi` của SQLite.
+
+---
+
+### II. Chức Năng Xóa Giao Dịch (Delete Transaction)
+Giúp tối ưu hóa dữ liệu và loại bỏ các khoản ghi chép không cần thiết hoặc bị trùng lặp.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/faf28139-13db-40f0-98f5-f7a88c0fabac" alt="Chức năng xóa" width="360" />
+</p>
+
+* **2.1 Cơ chế kích hoạt:** Khi người dùng **Ấn giữ lâu (Long Click)** vào một dòng giao dịch, hộp thoại `AlertDialog` **"Xác nhận xóa lịch sử"** sẽ xuất hiện. Hệ thống tự động trích xuất tên danh mục của khoản ghi đó để hỏi xác nhận, tránh tình trạng ấn nhầm.
+* **2.2 Cơ chế xử lý nút bấm:**
+    * `HỦY`: Đóng hộp thoại, an toàn giữ nguyên giao dịch.
+    * `XÓA`: Thực thi lệnh `dbHelper.deleteThuChi(id)` xóa vĩnh viễn bản ghi khỏi SQLite.
+> 💡 **Hành động sau khi xóa:** Ứng dụng sẽ tự động tính toán lại dòng tiền (Số dư khả dụng, Tổng Thu, Tổng Chi) trên thẻ báo cáo và cập nhật lại giao diện `RecyclerView` ngay lập tức.
 
 
