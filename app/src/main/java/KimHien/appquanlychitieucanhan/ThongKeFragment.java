@@ -78,13 +78,16 @@ public class ThongKeFragment extends Fragment {
 
     private void veBieuDoTheoThang(String chuoiThangNam) {
         List<PieEntry> danhSachManh = new ArrayList<>();
-
+        double tongTienCaThang = 0;
         // Gọi câu lệnh SQL và truyền biến chuoiThangNam động thay vì cố định "2026-05"
         Cursor cursor = dbHelper.getThongKeChiTieuTheoDanhMuc(maNguoiDung, chuoiThangNam);
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 int maDanhMuc = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.MA_DANH_MUC));
                 double tongTien = cursor.getDouble(cursor.getColumnIndexOrThrow("TongTien"));
+
+                // Cộng dồn vào tổng tiền cả tháng
+                tongTienCaThang += tongTien;
 
                 String[] danhMucMau = {"Ăn uống", "Học tập", "Đi lại", "Giải trí", "Tiền nhà", "Lương", "Thưởng"};
                 String tenDanhMuc = (maDanhMuc > 0 && maDanhMuc <= danhMucMau.length) ? danhMucMau[maDanhMuc - 1] : "Khác";
@@ -108,6 +111,15 @@ public class ThongKeFragment extends Fragment {
         PieData data = new PieData(dataSet);
         pieChart.setData(data);
         pieChart.getDescription().setEnabled(false);
+
+        pieChart.setDrawHoleEnabled(true); // Đục lỗ giữa
+        pieChart.setHoleRadius(60f);       // Độ rộng của lỗ khuyết
+        pieChart.setHoleColor(android.graphics.Color.parseColor("#F1F5F9"));
+
+        pieChart.setCenterText("TỔNG CHI\n" + (int)tongTienCaThang + " đ");
+
+        pieChart.setCenterTextColor(android.graphics.Color.parseColor("#0F172A"));
+        pieChart.setCenterTextSize(15f);
         pieChart.invalidate();
     }
 }
