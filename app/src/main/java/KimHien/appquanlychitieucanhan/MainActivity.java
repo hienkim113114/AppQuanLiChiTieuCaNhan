@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 if (id == R.id.nav_home) {
                     selectedFragment = new TrangChuFragment();
                 } else if (id == R.id.nav_chart) {
-                    selectedFragment = new Fragment();
+                    selectedFragment = new ThongKeFragment();
                 } else if (id == R.id.nav_budget) {
                     selectedFragment = new NganSachFragment();
                 } else if (id == R.id.nav_profile) {

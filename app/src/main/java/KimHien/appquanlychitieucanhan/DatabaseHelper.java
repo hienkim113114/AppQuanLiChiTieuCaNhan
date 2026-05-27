@@ -186,4 +186,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return limit;
     }
+    // Hàm thống kê tổng chi tiêu theo từng danh mục của một tháng cụ thể
+    public Cursor getThongKeChiTieuTheoDanhMuc(String userId, String thangNam) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Câu lệnh SQL truy vấn nhóm dữ liệu
+        String query = "SELECT " + MA_DANH_MUC + ", SUM(" + SO_TIEN + ") AS TongTien " +
+                "FROM " + TABLE_THUCHI + " " +
+                "WHERE " + USER_ID + " = ? " +
+                "AND " + LOAI + " = 'CHI' " +
+                "AND " + NGAY + " LIKE ? " +
+                "GROUP BY " + MA_DANH_MUC;
+
+        // Tham số truyền vào tương ứng với dấu ? : userId và định dạng tháng năm (Ví dụ: "2026-05%")
+        return db.rawQuery(query, new String[]{userId, thangNam + "%"});
+    }
+
 }
