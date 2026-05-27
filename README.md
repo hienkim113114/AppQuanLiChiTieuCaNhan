@@ -70,10 +70,38 @@ Giúp tối ưu hóa dữ liệu và loại bỏ các khoản ghi chép không c
 **Hành động sau khi xóa:** Ứng dụng sẽ tự động tính toán lại dòng tiền (Số dư khả dụng, Tổng Thu, Tổng Chi) trên thẻ báo cáo và cập nhật lại giao diện `RecyclerView`.
 ---
 
-## 🔄 Giai đoạn 3:
+## 🔄 Giai đoạn 3:Giao diện Ngân Sách Theo Tháng Và Các Chức Năng Của Ngân Sách
+### I.Giao diện Ngân Sách
+<p align="center">
 <img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/7b24a711-7228-4d92-ae23-e41a32dc0bc2" />
+  </p>
+* **1.1 Tiêu đề hiển thị thời gian**
+    * Nội dung :Ngân sách Tháng 5/2026,được cập nhật tự động bằng cách bốc dữ liệu thời gian thực từ hệ thống giúp phân tách các gói ngân sách theo từng tháng riêng biệt.
+* **1.2 Thẻ báo cáo Ngân Sách**
+    * Hạn mức chi tiêu tối đa:Số tiền mà người dùng đặt ra trước đó để giới hạn bản thân.
+    * 📉 Đã chi tiêu: Tổng tất cả các khoản ghi thuộc loại "CHI" phát sinh trong tháng 5/2026,           được truy vấn từ SQLite.
+    * 💰 Ví còn lại:Kết quả của phép tính: $\text{Hạn mức} - \text{Đã chi tiêu}$.
+ * **1.3. Thanh tiến độ**
+     * Thanh tiến độ Giúp người dùng hình dung nhanh tốc độ "đốt tiền" của mình trong thángtránh         trường hợp người dùng phải suy nghĩ phân tích lâu.
+ * **1.4 Thông điệp  và Cảnh báo chi tiêu**
+     * Nội dung hiển thị: 
+       * Trường hợp nếu Tổng chi > Hạn Mức thì kích hoạt cảnh báo nguy hiểm như
+             * "⚠️ NGUY HIỂM: Bạn đã chi tiêu vượt hạn mức cho phép.. đ! Hãy thắt chặt chi tiêu                     ngay!"
+      * Trường hợp nếu Tổng chi đạt từ 90% đến 100% Hạn Mức thì kích hoạt cảnh báo chú ý như
+        *"🍊 CHÚ Ý: Quỹ chi tiêu của bạn đã dùng hết " + phanTramTienDo + "%. Bạn sắp chạm mức             giới hạn cho phép!"
+     * Trường hợp nếu Tổng chi đạt từ 90% đến 100% Hạn Mức thì kích hoạt cảnh báo chú ý như
+       * "✅ AN TOÀN: Tình hình tài chính tháng này của bạn rất tốt. Tiếp tục duy trì nhé!"    
+* **1.5. Nút bấm "THIẾT LẬP HẠN MỨC"**
+    * Nút này cho phép người dùng thay đổi lại con số về hạn mức tháng mong muốn (ví dụ nâng từ $150.000\text{ đ}$ lên con số khác tùy ý).
+      
+---
 
-<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/d4e90162-ccff-4653-afd3-cfb083e98571" />
+### II. Chức Năng Đặt Hạn Mức Chi Tiêu
+<p align="center">
+<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/d4e90162-ccff-4653-afd3-cfb083e98571" /> 
+</p>
+*Khi nhấn vào nút "THIẾT LẬP HẠN MỨC" tại màn hình quản lý ngân sách thì sẽ xuất hiện hộp thoại Thiết lập Hạn mức Ngân sách Tháng. Tại đây hệ thống sẽ tự động hiển thị số hạn mức cũ đã lưu gần nhất để người dùng dễ điều chỉnh.Khi nhấn "LƯU" hệ thống sẽ  cập nhật bảng ngân sách trong SQLite theo mốc thời gian Tháng/Năm hiện tại, từ đó cập nhật lại tỷ lệ % trên thanh tiến độ.
+
 
 
 
