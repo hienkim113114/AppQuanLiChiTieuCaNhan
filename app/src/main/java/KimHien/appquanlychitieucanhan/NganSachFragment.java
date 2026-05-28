@@ -58,6 +58,10 @@ public class NganSachFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        //Nhận mã người dùng thật từ MainActivity gửi xuống
+        if (getArguments() != null) {
+            maNguoiDung = getArguments().getString("USER_ID", "offline_user");
+        }
         chuyenDoiVaTinhToanNganSach();
     }
 

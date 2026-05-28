@@ -13,19 +13,23 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigation;
     private FloatingActionButton fabAdd;
+    private String maNguoiDung;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    //Hứng mã người dùng đăng nhập
+        maNguoiDung = getIntent().getStringExtra("USER_ID");
+        if (maNguoiDung == null) {
+            maNguoiDung = "offline_user"; // Phòng hờ nếu có lỗi xảy ra
+        }
 
-        // Ánh xạ các thành phần trên giao diện
+        // Ánh xạ giao diện
         bottomNavigation = findViewById(R.id.bottom_navigation);
-
+        //Chuyển vào màn hình trang chủ
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new TrangChuFragment())
-                    .commit();
+            chuyenFragment(new TrangChuFragment());
         }
 
         // Xử lý sự kiện khi người dùng click đổi các Tab dưới Bottom Navigation
@@ -42,18 +46,26 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_budget) {
                     selectedFragment = new NganSachFragment();
                 } else if (id == R.id.nav_profile) {
-                    selectedFragment = new Fragment();
+                    selectedFragment = new TaiKhoanFragment();
                 }
 
-                // Thực hiện chuyển đổi Fragment trên màn hình nếu selectedFragment không bị rỗng
                 if (selectedFragment != null) {
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, selectedFragment)
-                            .commit();
+                    chuyenFragment(selectedFragment);
                 }
                 return true;
             }
         });
 
+    }
+    private void chuyenFragment(Fragment fragment) {
+        // Dữ liệu maNguoiDung gửi vào Fragment nhận
+        Bundle args = new Bundle();
+        args.putString("USER_ID", maNguoiDung);
+        fragment.setArguments(args);
+
+        // Thực hiện lệnh chuyển màn hình
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 }

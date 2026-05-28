@@ -21,13 +21,18 @@ public class GhiChepThuChiActivity extends AppCompatActivity {
     private Button btnLuu;
 
     private DatabaseHelper dbHelper;
-    private String maNguoiDungHienTai = "user_mac_dinh";
+    private String maNguoiDungHienTai;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghi_chep_thu_chi);
 
         dbHelper = new DatabaseHelper(this);
+        //Nhận mã người dùng thật được truyền sang từ Fragment
+        maNguoiDungHienTai = getIntent().getStringExtra("USER_ID");
+        if (maNguoiDungHienTai == null) {
+            maNguoiDungHienTai = "offline_user";
+        }
         //  Ánh xạ UI
         rgLoai = findViewById(R.id.rg_loai);
         rbChi = findViewById(R.id.rb_chi);
@@ -38,14 +43,13 @@ public class GhiChepThuChiActivity extends AppCompatActivity {
         spnDanhMuc = findViewById(R.id.spn_danhmuc);
         btnLuu = findViewById(R.id.btn_luu);
 
-        maNguoiDungHienTai = "offline_user";
 
         // Danh mục mẫu
         String[] danhMucMau = {"Ăn uống", "Học tập", "Đi lại", "Giải trí", "Tiền nhà", "Lương", "Thưởng"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, danhMucMau);
         spnDanhMuc.setAdapter(adapter);
 
-        // 4. Bắt sự kiện Click vào ô Ngày để hiển thị hộp thoại chọn ngày Picker
+        // 4. Bắt sự kiện Click vào ô Ngày để hiển thị hộp thoại chọn ngày
         edtNgay.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int nam = calendar.get(Calendar.YEAR);

@@ -8,11 +8,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ExpenseManager.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 5;
 
     public static final String TABLE_THUCHI = "thuchi";
     public static final String TABLE_DANHMUC = "danhmuc";
     public static final String TABLE_NGANSACH = "ngansach";
+
+    public static final String TABLE_USERS = "users";
+    public static final String COL_EMAIL = "email";
+    public static final String COL_PASSWORD = "password";
+    public static final String COL_HOTEN = "ho_ten";
+    public static final String COL_SDT = "so_dien_thoai";
     // Các trường chung
     public static final String ID = "id";
     public static final String USER_ID = "user_id";
@@ -39,6 +45,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //TẠO CÁC BẢNG DỮ LIỆU
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Bảng Người dùng
+        String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
+                + USER_ID + " TEXT PRIMARY KEY," // Dùng làm khóa chính liên kết các bảng khác
+                + COL_EMAIL + " TEXT,"
+                + COL_PASSWORD + " TEXT,"
+                + COL_HOTEN + " TEXT,"
+                + COL_SDT + " TEXT" + ")";
+
         // Tạo bảng Danh mục
         String CREATE_DANHMUC_TABLE = "CREATE TABLE " + TABLE_DANHMUC + "("
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -64,6 +78,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + THANG_NAM + " TEXT,"
                 + HAN_MUC + " REAL" + ")";
 
+
+         db.execSQL(CREATE_USERS_TABLE);
+
         db.execSQL(CREATE_DANHMUC_TABLE);
         db.execSQL(CREATE_THUCHI_TABLE);
         db.execSQL(CREATE_NGANSACH_TABLE);
@@ -74,6 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_THUCHI);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANHMUC);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NGANSACH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         onCreate(db);
     }
     //  HÀM XỬ LÝ BẢNG THUCHI
@@ -198,8 +216,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "AND " + NGAY + " LIKE ? " +
                 "GROUP BY " + MA_DANH_MUC;
 
-        // Tham số truyền vào tương ứng với dấu ? : userId và định dạng tháng năm (Ví dụ: "2026-05%")
         return db.rawQuery(query, new String[]{userId, thangNam + "%"});
+    }
+
+    // Hàm xu lý đăng ký tài khoản
+    public boolean registerUser(String hoTen, String email, String sdt, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // Dùng email làm USER_ID duy nhất
+        values.put(USER_ID, email);
+        values.put(COL_HOTEN, hoTen);
+        values.put(COL_EMAIL, email);
+        values.put(COL_SDT, sdt);
+        values.put(COL_PASSWORD, password);
+
+        long result = db.insert(TABLE_USERS, null, values);
+        db.close();
+        return result != -1;
+    }
+    //Hàm xử lý đăng nhập
+    public boolean checkLogin(String email, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_USERS + " WHERE " + COL_EMAIL + " = ? AND " + COL_PASSWORD + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{email, password});
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count > 0;
     }
 
 }

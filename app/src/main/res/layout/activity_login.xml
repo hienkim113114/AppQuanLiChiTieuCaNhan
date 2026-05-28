@@ -55,7 +55,7 @@
                 android:id="@+id/edt_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email hoặc số điện thoại"
+                android:hint="Nhập tài khoản Email "
                 android:inputType="textEmailAddress"
                 android:textColor="#1E293B"/>
         </com.google.android.material.textfield.TextInputLayout>

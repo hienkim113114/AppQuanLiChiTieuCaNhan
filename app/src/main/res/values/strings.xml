@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">AppQuanLyChiTieuCaNhan</string>
+    <string name="app_name">Quản lý chi tiêu</string>
+    <string name="slogan">Hiểu rõ tài chính, chi tiêu thông minh</string>
+    <string name="hint_email">Email hoặc số điện thoại</string>
+    <string name="hint_password">Mật khẩu</string>
+    <string name="btn_login">Đăng nhập</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

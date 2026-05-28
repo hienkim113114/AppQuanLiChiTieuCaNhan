@@ -47,8 +47,17 @@ public class TrangChuFragment extends Fragment {
         rcvLichSu.setAdapter(adapter);
 
         com.google.android.material.floatingactionbutton.FloatingActionButton fabAdd = view.findViewById(R.id.fab_trangchu_add);
+
         fabAdd.setOnClickListener(v -> {
             android.content.Intent intent = new Intent(getContext(), GhiChepThuChiActivity.class);
+
+            //Lấy trực tiếp ID từ arguments ngay khi click
+            String idThat = "offline_user";
+            if (getArguments() != null) {
+                idThat = getArguments().getString("USER_ID", "offline_user");
+            }
+
+            intent.putExtra("USER_ID", idThat);
             startActivity(intent);
         });
         // Đón nhận sự kiện từ Adapter
@@ -135,6 +144,10 @@ public class TrangChuFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        //Nhận mã người dùng thật từ MainActivity gửi xuống
+        if (getArguments() != null) {
+            maNguoiDung = getArguments().getString("USER_ID", "offline_user");
+        }
         // Mỗi khi quay lại tab Trang Chủ, tải lại dữ liệu mới nhất
         docDuLieuTuSQLite();
     }
