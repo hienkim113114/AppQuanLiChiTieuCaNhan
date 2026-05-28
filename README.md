@@ -118,6 +118,17 @@ Giúp tối ưu hóa dữ liệu và loại bỏ các khoản ghi chép không c
   * Tại đây, hệ thống sẽ tự động hiển thị số hạn mức cũ đã lưu gần nhất để người dùng dễ điều chỉnh. 
   * Khi nhấn **"LƯU"**, hệ thống sẽ cập nhật bảng ngân sách trong SQLite theo mốc thời gian Tháng/Năm hiện tại, từ đó cập nhật lại tỷ lệ % trên thanh tiến độ.
 
+-----
+## 🔄 Giai đoạn 4: Giao diện Đăng Nhập và Đăng Ký
 
+<p align="center">
+<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/eabfa340-f366-4d99-a96f-fb65c1ae9a05" />
+</p>
 
+-----
+
+<p align="center">
+  <img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/e8098889-469e-460d-b028-f4da7d075209" />
+
+</p>
 
