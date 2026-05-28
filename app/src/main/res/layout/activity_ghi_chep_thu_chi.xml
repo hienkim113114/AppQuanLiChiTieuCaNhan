@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:text="Phân loại dòng tiền"
             android:textColor="#475569"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            />
 
         <RadioGroup
             android:id="@+id/rg_loai"
@@ -35,7 +36,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            >
 
             <RadioButton
                 android:id="@+id/rb_chi"
@@ -75,7 +79,10 @@
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:padding="10dp"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+        />
 
         <TextView
             android:layout_width="wrap_content"
@@ -113,7 +120,10 @@
             android:importantForAutofill="no"
             android:inputType="date"
             android:padding="10dp"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -134,7 +144,10 @@
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:padding="10dp"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+        />
 
         <Button
             android:id="@+id/btn_luu"
