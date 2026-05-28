@@ -12,14 +12,6 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <ImageButton
-            android:id="@+id/btn_back_to_login"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@android:drawable/ic_media_previous"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="#1E293B"
-            android:layout_marginTop="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +49,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Họ và tên"
-                android:inputType="textPersonName"/>
+
+                android:inputType="textPersonName"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -76,7 +72,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -95,7 +94,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Số điện thoại"
-                android:inputType="phone"/>
+                android:inputType="phone"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -115,7 +117,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Mật khẩu"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -135,7 +140,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nhập lại mật khẩu"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

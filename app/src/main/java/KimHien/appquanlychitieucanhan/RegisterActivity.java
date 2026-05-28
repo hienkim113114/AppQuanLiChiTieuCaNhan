@@ -1,5 +1,6 @@
 package KimHien.appquanlychitieucanhan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,8 +29,6 @@ public class RegisterActivity extends AppCompatActivity {
         btnDangKy = findViewById(R.id.btn_dang_ky);
         txtChuyenDangNhap = findViewById(R.id.txt_chuyen_dang_nhap);
 
-        // Nút quay lại
-        findViewById(R.id.btn_back_to_login).setOnClickListener(v -> finish());
 
         // Bấm chữ "Đăng nhập"đóng màn hình để quay lại Login
         txtChuyenDangNhap.setOnClickListener(v -> finish());
@@ -56,11 +55,38 @@ public class RegisterActivity extends AppCompatActivity {
             //Lưu vào SQLite
             boolean canRegister = dbHelper.registerUser(hoTen, email, sdt, password);
             if (canRegister) {
-                Toast.makeText(this, "Đăng ký tài khoản thành công!", Toast.LENGTH_SHORT).show();
-                finish();
+                hienThiDialogThanhCong();
             } else {
                 Toast.makeText(this, "Đăng ký thất bại! Email có thể đã tồn tại.", Toast.LENGTH_SHORT).show();
             }
         });
     }
+    private void hienThiDialogThanhCong() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(RegisterActivity.this);
+        // Nạp file giao diện dialog_success.xml vào code
+        android.view.LayoutInflater inflater = getLayoutInflater();
+        android.view.View dialogView = inflater.inflate(R.layout.dialog_success, null);
+        builder.setView(dialogView);
+
+        android.app.AlertDialog dialog = builder.create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+
+        dialog.setCancelable(false);
+        dialog.show();
+
+        // Xử lý sự kiện khi bấm nút "Go To Login"
+        Button btnGoToLogin = dialogView.findViewById(R.id.btn_go_to_login);
+        btnGoToLogin.setOnClickListener(v -> {
+            dialog.dismiss(); // Tắt cửa sổ popup
+
+            // Chuyển hướng về màn hình Login
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+    }
+
 }
