@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ExpenseManager.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     public static final String TABLE_THUCHI = "thuchi";
     public static final String TABLE_DANHMUC = "danhmuc";
@@ -245,5 +245,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return count > 0;
     }
-
+    // Hàm lấy thông tin  của người dùng dựa vào Email/ID đăng nhập
+    public Cursor getThongTinNguoiDung(String emailOrId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_USERS + " WHERE " + USER_ID + " = ?";
+        return db.rawQuery(query, new String[]{emailOrId});
+    }
 }
