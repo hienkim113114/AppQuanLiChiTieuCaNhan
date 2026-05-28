@@ -129,12 +129,12 @@
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:backgroundTint="#EF4444"
+            android:backgroundTint="#446FEF"
             android:text="ĐĂNG XUẤT"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:cornerRadius="12dp"/>
+            app:cornerRadius="12dp" />
 
     </LinearLayout>
 </ScrollView>
