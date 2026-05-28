@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
     android:background="#F1F5F9">
@@ -9,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thống Kê Chi Tiêu"
+        android:text="Thống Kê Tổng Quan"
         android:textColor="#0F172A"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -51,9 +52,29 @@
             android:textColor="#FFFFFF"/>
     </LinearLayout>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/txt_tong_quan_thu_chi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A89B9B"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:text="Tháng 5/2026: Chi Tiêu 0 đ, Thu Nhập 0 đ"
+            android:textColor="#030609"
+            android:textSize="15sp" />
+    </androidx.cardview.widget.CardView>
+
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pie_chart_thongke"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package KimHien.appquanlychitieucanhan;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.List;
 public class ThongKeFragment extends Fragment {
 
     private PieChart pieChart;
-    private TextView txtHienThiThang;
+    private TextView txtHienThiThang, txtTongQuanThuChi;
     private Button btnThangTruoc, btnThangSau;
     private DatabaseHelper dbHelper;
     private String maNguoiDung = "offline_user";
@@ -37,6 +39,7 @@ public class ThongKeFragment extends Fragment {
         dbHelper = new DatabaseHelper(getContext());
         pieChart = view.findViewById(R.id.pie_chart_thongke);
         txtHienThiThang = view.findViewById(R.id.txt_hien_thi_thang);
+        txtTongQuanThuChi = view.findViewById(R.id.txt_tong_quan_thu_chi);
         btnThangTruoc = view.findViewById(R.id.btn_thang_truoc);
         btnThangSau = view.findViewById(R.id.btn_thang_sau);
 
@@ -73,57 +76,73 @@ public class ThongKeFragment extends Fragment {
 
         txtHienThiThang.setText(String.format("Tháng %02d/%d", thang, nam));
 
-        // Tạo chuỗi định dạng "YYYY-MM" để truyền vào câu lệnh SQLite
+        // Tạo chuỗi định dạng "YYYY-MM"
         String chuoiThangNamQuery = String.format("%d-%02d", nam, thang);
 
+        // Tính toán và hiển thị chuỗi tổng quan số tiền Thu/Chi thực tế
+        DecimalFormat dinhDangSo = new DecimalFormat("#,###");
+        double tongChiThang = dbHelper.getTongChiThang(maNguoiDung, chuoiThangNamQuery);
+        double tongThuThang = dbHelper.getTongThuThang(maNguoiDung, chuoiThangNamQuery);
+
+        // HIỂN THỊ KHOẢN THU
+        txtTongQuanThuChi.setText("Tháng " + thang + "/" + nam + ": Chi Tiêu " + dinhDangSo.format(tongChiThang) + " đ, Thu Nhập " + dinhDangSo.format(tongThuThang) + " đ");
         //Vẽ lại biểu đồ với điều kiện tháng năm vừa tính được
         veBieuDoTheoThang(chuoiThangNamQuery);
     }
 
     private void veBieuDoTheoThang(String chuoiThangNam) {
-        List<PieEntry> danhSachManh = new ArrayList<>();
-        double tongTienCaThang = 0;
-        // Gọi câu lệnh SQL và truyền biến chuoiThangNam động thay vì cố định "2026-05"
-        Cursor cursor = dbHelper.getThongKeChiTieuTheoDanhMuc(maNguoiDung, chuoiThangNam);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                int maDanhMuc = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.MA_DANH_MUC));
-                double tongTien = cursor.getDouble(cursor.getColumnIndexOrThrow("TongTien"));
+        // Mảng tên danh mục chuẩn để đối chiếu tên từ mã danh mục
+        String[] danhMucMau = {"Ăn uống", "Học tập", "Đi lại", "Giải trí", "Tiền nhà", "Lương", "Thưởng"};
 
-                // Cộng dồn vào tổng tiền cả tháng
-                tongTienCaThang += tongTien;
 
-                String[] danhMucMau = {"Ăn uống", "Học tập", "Đi lại", "Giải trí", "Tiền nhà", "Lương", "Thưởng"};
-                String tenDanhMuc = (maDanhMuc > 0 && maDanhMuc <= danhMucMau.length) ? danhMucMau[maDanhMuc - 1] : "Khác";
+        List<PieEntry> danhSachVongTrong = new ArrayList<>();
+        Cursor cursorChi = dbHelper.getThongKeChiTieuTheoDanhMuc(maNguoiDung, chuoiThangNam);
 
-                danhSachManh.add(new PieEntry((float) tongTien, tenDanhMuc));
-            } while (cursor.moveToNext());
-            cursor.close();
+        if (cursorChi != null) {
+            // Lấy dữ liệu theo vị trí cột cố định 0 và 1
+            if (cursorChi.moveToFirst()) {
+                do {
+                    int maDanhMuc = cursorChi.getInt(0);
+                    double tongTien = cursorChi.getDouble(1);
+
+                    String tenDanhMuc = (maDanhMuc > 0 && maDanhMuc <= danhMucMau.length) ? danhMucMau[maDanhMuc - 1] : "Khác";
+                    danhSachVongTrong.add(new PieEntry((float) tongTien, tenDanhMuc));
+                } while (cursorChi.moveToNext());
+            }
+            cursorChi.close();
         }
 
-        if (danhSachManh.isEmpty()) {
+        // Nếu không có dữ liệu Chi thì báo trống
+        if (danhSachVongTrong.isEmpty()) {
             pieChart.clear();
             pieChart.setNoDataText("Tháng này chưa có dữ liệu chi tiêu!");
+            pieChart.setNoDataTextColor(Color.parseColor("#475569"));
             pieChart.invalidate();
             return;
         }
 
-        PieDataSet dataSet = new PieDataSet(danhSachManh, "");
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        dataSet.setValueTextSize(14f);
+        // Tạo bộ dữ liệu Chi tiêu
+        PieDataSet dataSetVongTrong = new PieDataSet(danhSachVongTrong, "");
+        dataSetVongTrong.setColors(ColorTemplate.COLORFUL_COLORS);
+        dataSetVongTrong.setValueTextSize(13f);
+        dataSetVongTrong.setValueTextColor(Color.BLACK);
 
-        PieData data = new PieData(dataSet);
+        // Đưa dữ liệu vào biểu đồ
+        PieData data = new PieData(dataSetVongTrong);
         pieChart.setData(data);
+
+        // Cấu hình hiển thị
         pieChart.getDescription().setEnabled(false);
+        pieChart.getLegend().setEnabled(true);
+        pieChart.getLegend().setWordWrapEnabled(true);
 
-        pieChart.setDrawHoleEnabled(true); // Đục lỗ giữa
-        pieChart.setHoleRadius(60f);       // Độ rộng của lỗ khuyết
-        pieChart.setHoleColor(android.graphics.Color.parseColor("#F1F5F9"));
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleRadius(55f); // Độ rộng của lỗ khuyết
+        pieChart.setHoleColor(Color.parseColor("#F1F5F9")); // Màu lỗ trùng với màu nền
 
-        pieChart.setCenterText("TỔNG CHI\n" + (int)tongTienCaThang + " đ");
+        pieChart.setCenterText("");
 
-        pieChart.setCenterTextColor(android.graphics.Color.parseColor("#0F172A"));
-        pieChart.setCenterTextSize(15f);
+
         pieChart.invalidate();
     }
 }

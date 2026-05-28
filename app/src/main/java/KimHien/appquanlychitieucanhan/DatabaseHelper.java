@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ExpenseManager.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 9;
 
     public static final String TABLE_THUCHI = "thuchi";
     public static final String TABLE_DANHMUC = "danhmuc";
@@ -208,8 +208,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getThongKeChiTieuTheoDanhMuc(String userId, String thangNam) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Câu lệnh SQL truy vấn nhóm dữ liệu
-        String query = "SELECT " + MA_DANH_MUC + ", SUM(" + SO_TIEN + ") AS TongTien " +
+        String query = "SELECT " + MA_DANH_MUC + ", CAST(SUM(" + SO_TIEN + ") AS REAL) AS TongTien " +
                 "FROM " + TABLE_THUCHI + " " +
                 "WHERE " + USER_ID + " = ? " +
                 "AND " + LOAI + " = 'CHI' " +
@@ -217,6 +216,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "GROUP BY " + MA_DANH_MUC;
 
         return db.rawQuery(query, new String[]{userId, thangNam + "%"});
+    }
+
+    // Hàm thống kê tổng THU NHẬP theo từng danh mục
+    public Cursor getThongKeThuNhapTheoDanhMuc(String userId, String thangNam) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // ĐÃ SỬA: Ép kiểu CAST(... AS REAL) để bảo đảm không bị lỗi dữ liệu đầu ra
+        String query = "SELECT " + MA_DANH_MUC + ", CAST(SUM(" + SO_TIEN + ") AS REAL) AS TongTien " +
+                "FROM " + TABLE_THUCHI + " " +
+                "WHERE " + USER_ID + " = ? " +
+                "AND " + LOAI + " = 'THU' " +
+                "AND " + NGAY + " LIKE ? " +
+                "GROUP BY " + MA_DANH_MUC;
+
+        return db.rawQuery(query, new String[]{userId, thangNam + "%"});
+    }
+    //Hàm tính tổng nhanh số tiền CHI trong tháng
+    public double getTongChiThang(String userId, String chuoiThangNam) {
+        double tong = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + SO_TIEN + ") FROM " + TABLE_THUCHI +
+                " WHERE " + USER_ID + " = ? AND " + LOAI + " = 'CHI' AND " + NGAY + " LIKE ?";
+        Cursor cursor = db.rawQuery(query, new String[]{userId, chuoiThangNam + "%"});
+        if (cursor.moveToFirst()) {
+            tong = cursor.getDouble(0);
+        }
+        cursor.close();
+        return tong;
+    }
+
+    //Hàm tính tổng nhanh số tiền THU trong tháng
+    public double getTongThuThang(String userId, String chuoiThangNam) {
+        double tong = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + SO_TIEN + ") FROM " + TABLE_THUCHI +
+                " WHERE " + USER_ID + " = ? AND " + LOAI + " = 'THU' AND " + NGAY + " LIKE ?";
+        Cursor cursor = db.rawQuery(query, new String[]{userId, chuoiThangNam + "%"});
+        if (cursor.moveToFirst()) {
+            tong = cursor.getDouble(0);
+        }
+        cursor.close();
+        return tong;
     }
 
     // Hàm xu lý đăng ký tài khoản
