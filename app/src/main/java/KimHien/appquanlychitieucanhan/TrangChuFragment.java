@@ -157,6 +157,13 @@ public class TrangChuFragment extends Fragment {
         double tongThu = 0;
         double tongChi = 0;
 
+        //  Lấy tháng và năm hiện tại để lọc dữ liệu
+        java.util.Calendar lichHeThong = java.util.Calendar.getInstance();
+        int namHienTai = lichHeThong.get(java.util.Calendar.YEAR);
+        int thangHienTai = lichHeThong.get(java.util.Calendar.MONTH) + 1;
+
+        String chuoiThangNamHienTai = String.format("%d-%02d", namHienTai, thangHienTai);
+
         // Gọi hàm lấy toàn bộ khoản thu chi của user từ DatabaseHelper
         Cursor cursor = dbHelper.getAllThuChiByUser(maNguoiDung);
 
@@ -174,11 +181,13 @@ public class TrangChuFragment extends Fragment {
                 String[] danhMucMau = {"Ăn uống", "Học tập", "Đi lại", "Giải trí", "Tiền nhà", "Lương", "Thưởng"};
                 String tenDanhMuc = (maDanhMuc > 0 && maDanhMuc <= danhMucMau.length) ? danhMucMau[maDanhMuc - 1] : "Khác";
 
-                // Tính toán tổng số dư
-                if (loai.equalsIgnoreCase("THU")) {
-                    tongThu += soTien;
-                } else {
-                    tongChi += soTien;
+                //  Chỉ cộng vào tổng Thu/Chi ở widget nếu giao dịch thuộc tháng hiện tại
+                if (ngay != null && ngay.startsWith(chuoiThangNamHienTai)) {
+                    if (loai.equalsIgnoreCase("THU")) {
+                        tongThu += soTien;
+                    } else {
+                        tongChi += soTien;
+                    }
                 }
 
                 danhSachThuChi.add(new ThuChiModel(id, maNguoiDung, loai, soTien, maDanhMuc, ngay, ghiChu, tenDanhMuc));
@@ -187,13 +196,28 @@ public class TrangChuFragment extends Fragment {
             cursor.close();
         }
 
-        // Cập nhật số dư lên giao diện
 
-        double soDu = tongThu - tongChi;
+        // Tính la số dư thực tế trong ví ( tổng thu - tổng chi )
+        double tongThuVinhVien = dbHelper.getTongThuThang(maNguoiDung, ""); // Để chuỗi rỗng để dbHelper tự tính tổng tất cả
+        double tongChiVinhVien = dbHelper.getTongChiThang(maNguoiDung, "");
+        if (tongThuVinhVien == 0 && tongChiVinhVien == 0) {
+            double soDu = tongThu - tongChi;
+        }
+
+        // lấy tổng số dư dựa theo tất cả danh sách đang có
+        double soDuCacGiaoDich = 0;
+        for (ThuChiModel model : danhSachThuChi) {
+            if (model.getLoai().equalsIgnoreCase("THU")) {
+                soDuCacGiaoDich += model.getSoTien();
+            } else {
+                soDuCacGiaoDich -= model.getSoTien();
+            }
+        }
         DecimalFormat formatter = new DecimalFormat("#,###");
+
         // Cập nhật các con số tổng lên giao diện
-        txtTongSoDu.setText(formatter.format(soDu) + " đ");
-        txtTongThu.setText(formatter.format(tongThu) + " đ");
+        txtTongSoDu.setText(formatter.format(soDuCacGiaoDich) + " đ"); // Số dư khả dụng thực tế trong ví
+        txtTongThu.setText(formatter.format(tongThu) + " đ");          // Tổng thu nhập của riêng tháng này
         txtTongChi.setText(formatter.format(tongChi) + " đ");
 
 
