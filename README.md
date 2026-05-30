@@ -132,3 +132,13 @@ Giúp tối ưu hóa dữ liệu và loại bỏ các khoản ghi chép không c
 
 </p>
 
+----
+## 🔄 Giai đoạn 5: Chỉnh sửa lại giao diện
+<p align="center">
+ <img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/8cf78f3a-7dd3-425b-999c-dafdfa43d2ff" />
+</p>
+
+<p align="center">
+<img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/5a30e6f7-4c96-4d00-87e5-a4af1cde5c27" />
+
+</p>
