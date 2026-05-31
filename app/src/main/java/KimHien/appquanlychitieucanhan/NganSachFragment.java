@@ -15,14 +15,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class NganSachFragment extends Fragment {
 
     private TextView txtThangNam, txtHanMucHienTai, txtTongChiThang, txtConLai, txtThongBaoCanhBao;
     private ProgressBar prgTienDo;
     private Button btnThietLapHanMuc;
+
+    private RecyclerView rcvNganSach;
+    private NganSachAdapter nganSachAdapter;
+    private List<NganSachModel> danhSachNganSach;
     private DatabaseHelper dbHelper;
     private String maNguoiDung = "offline_user";
     private String thangNamHienTai;
@@ -42,6 +51,13 @@ public class NganSachFragment extends Fragment {
         prgTienDo = view.findViewById(R.id.prg_ngansach_tiendo);
         btnThietLapHanMuc = view.findViewById(R.id.btn_thiet_lap_han_muc);
 
+        // Cấu hình danh sách so sánh các tháng
+        rcvNganSach = view.findViewById(R.id.rcv_danh_sach_ngan_sach);
+        rcvNganSach.setLayoutManager(new LinearLayoutManager(getContext()));
+        danhSachNganSach = new ArrayList<>();
+        nganSachAdapter = new NganSachAdapter(danhSachNganSach);
+        rcvNganSach.setAdapter(nganSachAdapter);
+
         // Lấy tháng năm hiện tại tự động theo định dạng YYYY-MM
         Calendar calendar = Calendar.getInstance();
         int nam = calendar.get(Calendar.YEAR);
@@ -55,6 +71,7 @@ public class NganSachFragment extends Fragment {
 
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -63,6 +80,7 @@ public class NganSachFragment extends Fragment {
             maNguoiDung = getArguments().getString("USER_ID", "offline_user");
         }
         chuyenDoiVaTinhToanNganSach();
+        taiDanhSachNganSachCacThang();
     }
 
     // Hộp thoại cho user nhập hạn mức ví tiền mong muốn
@@ -98,6 +116,7 @@ public class NganSachFragment extends Fragment {
             Toast.makeText(getContext(), "Đã thiết lập hạn mức chi tiêu thành công!", Toast.LENGTH_SHORT).show();
 
             chuyenDoiVaTinhToanNganSach();
+            taiDanhSachNganSachCacThang();
         });
 
         builder.setNegativeButton("HỦY", null);
@@ -146,16 +165,37 @@ public class NganSachFragment extends Fragment {
             txtThongBaoCanhBao.setText("⚠️ NGUY HIỂM: Bạn đã chi tiêu vượt hạn mức cho phép " + formatter.format(Math.abs(conLai)) + " đ! Hãy thắt chặt chi tiêu ngay!");
             txtThongBaoCanhBao.setTextColor(Color.RED);
             prgTienDo.setProgressDrawable(getContext().getResources().getDrawable(android.R.drawable.progress_horizontal));
-        }
-        else if (tongChi >= (0.9 * hanMuc)) {
+        } else if (tongChi >= (0.9 * hanMuc)) {
             //CHI TIÊU ĐẠT TỪ 90% ĐẾN 100% HẠN MỨC -> KÍCH HOẠT CẢNH BÁO CHÚ Ý
             txtThongBaoCanhBao.setText("🍊 CHÚ Ý: Quỹ chi tiêu của bạn đã dùng hết " + phanTramTienDo + "%. Bạn sắp chạm mức giới hạn cho phép!");
             txtThongBaoCanhBao.setTextColor(Color.parseColor("#F59E0B"));
-        }
-        else {
+        } else {
             //CHI TIÊU DƯỚI 90% HẠN MỨC -> TRẠNG THÁI ỔN ĐỊNH
             txtThongBaoCanhBao.setText("✅ AN TOÀN: Tình hình tài chính tháng này của bạn rất tốt. Tiếp tục duy trì nhé!");
             txtThongBaoCanhBao.setTextColor(Color.parseColor("#10B981"));
         }
+    }
+
+    //Quét database để tìm ngân sách và chi tiêu thực tế của các tháng cũ đưa vào danh sách so sánh
+    private void taiDanhSachNganSachCacThang() {
+        danhSachNganSach.clear();
+
+        // Lấy danh sách 4 tháng gần nhất tự động để lập bảng so sánh
+        Calendar cal = Calendar.getInstance();
+        for (int i = 0; i < 4; i++) {
+            int nam = cal.get(Calendar.YEAR);
+            int thang = cal.get(Calendar.MONTH) + 1;
+            String chuoiThangNam = String.format("%d-%02d", nam, thang);
+
+            double hanMucThang = dbHelper.getBudgetAmount(maNguoiDung, chuoiThangNam);
+            double daChiThang = dbHelper.getTotalAmountByType(maNguoiDung, "CHI", chuoiThangNam);
+
+            // Chỉ thêm vào bảng hiển thị nếu tháng đó có thiết lập hạn mức hoặc có phát sinh giao dịch chi tiêu
+            if (hanMucThang > 0 || daChiThang > 0) {
+                danhSachNganSach.add(new NganSachModel(chuoiThangNam, hanMucThang, daChiThang));
+            }
+            cal.add(Calendar.MONTH, -1); // Lùi về 1 tháng trước đó để lấy dữ liệu lịch sử
+        }
+        nganSachAdapter.notifyDataSetChanged();
     }
 }

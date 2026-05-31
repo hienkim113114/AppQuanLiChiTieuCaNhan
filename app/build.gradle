@@ -4,11 +4,8 @@ plugins {
 
 android {
     namespace 'KimHien.appquanlychitieucanhan'
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk 36
+
 
     defaultConfig {
         applicationId "KimHien.appquanlychitieucanhan"
@@ -41,7 +38,7 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
-    implementation platform('com.google.firebase:firebase-bom:33.1.0')
+    implementation platform('com.google.firebase:firebase-bom:34.14.0')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
