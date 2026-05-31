@@ -190,7 +190,7 @@ public class TrangChuFragment extends Fragment {
                     }
                 }
 
-                danhSachThuChi.add(new ThuChiModel(id, maNguoiDung, loai, soTien, maDanhMuc, ngay, ghiChu, tenDanhMuc));
+                danhSachThuChi.add(0, new ThuChiModel(id, maNguoiDung, loai, soTien, maDanhMuc, ngay, ghiChu, tenDanhMuc));
 
             } while (cursor.moveToNext());
             cursor.close();
