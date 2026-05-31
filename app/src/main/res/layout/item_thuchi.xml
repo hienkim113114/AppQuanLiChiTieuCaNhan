@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
-    android:layout_marginTop="6dp"
     android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="#D6E5EAED">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,12 +21,11 @@
 
         <ImageView
             android:id="@+id/img_item_bieutuong"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:drawable/dialog_holo_light_frame"
-            android:contentDescription="Icon danh mục"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_report_image" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_icon_category"
+            android:padding="10dp"
+            android:src="@android:drawable/ic_menu_agenda"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -37,38 +38,38 @@
                 android:id="@+id/txt_item_tendanhmuc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ăn uống"
-                android:textColor="#1E293B"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="Lương"
+                android:textColor="#0F172A"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/txt_item_ghichu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Mua cơm trưa văn phòng"
+                android:text="Công ty ABC"
                 android:textColor="#64748B"
-                android:textSize="14sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/txt_item_ngay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="2026-05-25"
+                android:text="24/07/2026"
                 android:textColor="#94A3B8"
-                android:textSize="12sp" />
+                android:textSize="11sp"/>
+
         </LinearLayout>
 
         <TextView
             android:id="@+id/txt_item_sotien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-50.000 đ"
-            android:textColor="#EF4444"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="+2.000.000 đ"
+            android:textColor="#22C55E"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
