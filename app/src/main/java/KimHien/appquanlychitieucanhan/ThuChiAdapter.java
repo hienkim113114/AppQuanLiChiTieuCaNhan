@@ -17,7 +17,7 @@ public class ThuChiAdapter extends RecyclerView.Adapter<ThuChiAdapter.ThuChiView
     private Context context;
     private List<ThuChiModel> danhSachThuChi;
     private OnItemClickListener listener;
-    // Thêm cả sự kiện Click và LongClick vào Interface, nhấn vào giao dịch để xem chi tiết và sua, LongClick để xóa
+
     public interface OnItemClickListener {
         void onItemClick(ThuChiModel item, int position);     // Bấm thường để xem Chi tiết & Sửa
         void onItemLongClick(ThuChiModel item, int position); // Bấm giữ lâu để Xóa luôn
@@ -53,11 +53,54 @@ public class ThuChiAdapter extends RecyclerView.Adapter<ThuChiAdapter.ThuChiView
         if (item.getLoai().equalsIgnoreCase("THU")) {
             holder.txtSoTien.setText("+" + bieuDienSoTien);
             holder.txtSoTien.setTextColor(Color.parseColor("#10B981"));
-            holder.imgBieuTuong.setImageResource(android.R.drawable.ic_input_add); //icon thu
+
         } else {
             holder.txtSoTien.setText("-" + bieuDienSoTien);
             holder.txtSoTien.setTextColor(Color.parseColor("#EF4444"));
-            holder.imgBieuTuong.setImageResource(android.R.drawable.ic_delete); // icon chi
+
+        }
+
+        String tenBieuTuong = "ic_chi_macdinh";
+        String tenDanhMuc = item.getTenDanhMuc() != null ? item.getTenDanhMuc().trim() : "";
+
+        switch (tenDanhMuc) {
+            case "Ăn uống":
+                tenBieuTuong = "ic_anuong";
+                break;
+            case "Học tập":
+                tenBieuTuong = "ic_hoctap";
+                break;
+            case "Đi lại":
+                tenBieuTuong = "ic_dilai";
+                break;
+            case "Giải trí":
+                tenBieuTuong = "ic_giaitri";
+                break;
+            case "Tiền nhà":
+                tenBieuTuong = "ic_tiennha";
+                break;
+            case "Lương":
+                tenBieuTuong = "ic_luong";
+                break;
+            case "Thưởng":
+                tenBieuTuong = "ic_thuong";
+                break;
+            default:
+                // Nếu là danh mục khác, dùng icon mặc định theo loại Thu/Chi
+                if (item.getLoai().equalsIgnoreCase("THU")) {
+                    tenBieuTuong = "ic_thu_macdinh";
+                } else {
+                    tenBieuTuong = "ic_chi_macdinh";
+                }
+                break;
+        }
+        int resId = context.getResources().getIdentifier(tenBieuTuong, "drawable", context.getPackageName());
+        if (resId != 0) {
+            // Nếu tìm thấy ảnh thì hiển thị
+            holder.imgBieuTuong.setImageResource(resId);
+        } else {
+            // Nếu ko tìm thays thì hiện ảnh mặc định
+            holder.imgBieuTuong.setImageResource(android.R.drawable.ic_menu_gallery);
         }
         // Xử lý sự kiện Click
         holder.itemView.setOnClickListener(v -> {

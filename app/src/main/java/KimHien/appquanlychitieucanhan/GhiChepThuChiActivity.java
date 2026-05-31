@@ -22,6 +22,7 @@ public class GhiChepThuChiActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
     private String maNguoiDungHienTai;
+    private final String[] danhMucMau = {"Ăn uống", "Học tập", "Đi lại", "Giải trí", "Tiền nhà", "Lương", "Thưởng"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +45,11 @@ public class GhiChepThuChiActivity extends AppCompatActivity {
         btnLuu = findViewById(R.id.btn_luu);
 
 
-        // Danh mục mẫu
-        String[] danhMucMau = {"Ăn uống", "Học tập", "Đi lại", "Giải trí", "Tiền nhà", "Lương", "Thưởng"};
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, danhMucMau);
         spnDanhMuc.setAdapter(adapter);
 
-        // 4. Bắt sự kiện Click vào ô Ngày để hiển thị hộp thoại chọn ngày
+        // Bắt sự kiện Click vào ô Ngày để hiển thị hộp thoại chọn ngày
         edtNgay.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int nam = calendar.get(Calendar.YEAR);
