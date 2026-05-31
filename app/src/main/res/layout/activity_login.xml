@@ -13,22 +13,24 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
-        <ImageView
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="276dp"
+            android:layout_height="185dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/img"
-            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:filter="true" />
+            android:filter="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img"
+            app:shapeAppearanceOverlay="@style/RoundedImageViewStyle" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quản lý chi tiêu"
-            android:textColor="#1E293B"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quản lý chi tiêu"
+        android:textColor="#1E293B"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"

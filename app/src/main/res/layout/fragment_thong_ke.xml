@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="◀"
-            android:backgroundTint="#0F172A"
+            android:backgroundTint="#2593E9"
             android:textColor="#FFFFFF"/>
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="▶"
-            android:backgroundTint="#0F172A"
+            android:backgroundTint="#2593E9"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
 
@@ -63,7 +63,7 @@
             android:id="@+id/txt_tong_quan_thu_chi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#A89B9B"
+            android:background="#498D95"
             android:gravity="center_vertical"
             android:padding="16dp"
             android:text="Tháng 5/2026: Chi Tiêu 0 đ, Thu Nhập 0 đ"

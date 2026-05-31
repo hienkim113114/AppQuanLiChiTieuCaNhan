@@ -4,5 +4,7 @@
         <item name="cornerSize">50%</item>
         <item name="cornerFamily">rounded</item>
     </style>
-
+    <style name="RoundedImageViewStyle">
+        <item name="cornerSize">16dp</item> <item name="cornerFamily">rounded</item>
+    </style>
 </resources>
