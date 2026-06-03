@@ -44,7 +44,7 @@
 
 ### 💰 Giao diện ngân sách định mức
 <p align="center">
-  <img width="720" height="1612" alt="image" src="https://github.com/user-attachments/assets/83b55e86-4e83-4dd0-9933-6065fe9e6e0a" />
+  <img width="380" alt="Ngân sách 1" src="https://github.com/user-attachments/assets/83b55e86-4e83-4dd0-9933-6065fe9e6e0a" />
 
   <img width="380" alt="Ngân sách 2" src="https://github.com/user-attachments/assets/3c13aabd-2186-450c-9f08-1baa077ed5b1" />
 </p>
