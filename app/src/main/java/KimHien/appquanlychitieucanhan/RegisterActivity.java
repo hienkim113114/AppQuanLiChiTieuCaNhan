@@ -45,7 +45,25 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                 return;
             }
+            //email phải ddun định dạng
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(
+                        this,
+                        "Email không đúng định dạng!",
+                        Toast.LENGTH_SHORT
+                ).show();
+                return;
+            }
+            //Số điện thoại phải gồm 10 số
+            if (!sdt.matches("^0\\d{9}$")) {
+                Toast.makeText(
+                        this,
+                        "Số điện thoại phải gồm 10 số!",
 
+                        Toast.LENGTH_SHORT
+                ).show();
+                return;
+            }
             //Nhập mk khong trùng khớp
             if (!password.equals(rePassword)) {
                 Toast.makeText(this, "Mật khẩu nhập lại không trùng khớp!", Toast.LENGTH_SHORT).show();

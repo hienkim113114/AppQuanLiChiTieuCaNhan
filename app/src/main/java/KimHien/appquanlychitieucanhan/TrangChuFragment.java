@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrangChuFragment extends Fragment {
+
     private TextView txtTongSoDu, txtTongThu, txtTongChi;
     private TextView txtTenNguoiDung;
     private RecyclerView rcvLichSu;
@@ -44,6 +45,7 @@ public class TrangChuFragment extends Fragment {
         txtTongChi = view.findViewById(R.id.txt_tong_chi);
         rcvLichSu = view.findViewById(R.id.rcv_lich_su);
         txtTenNguoiDung = view.findViewById(R.id.txt_ten_nguoi_dung);
+
 
         rcvLichSu.setLayoutManager(new LinearLayoutManager(getContext()));
 
