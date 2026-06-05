@@ -3,6 +3,7 @@ package KimHien.appquanlychitieucanhan;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,19 +17,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrangChuFragment extends Fragment {
-
     private TextView txtTongSoDu, txtTongThu, txtTongChi;
+    private TextView txtTenNguoiDung;
     private RecyclerView rcvLichSu;
     private DatabaseHelper dbHelper;
     private ThuChiAdapter adapter;
     private List<ThuChiModel> danhSachThuChi;
     private String maNguoiDung = "offline_user";
-
+    private ShapeableImageView imgAvatar;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,12 +43,16 @@ public class TrangChuFragment extends Fragment {
         txtTongThu = view.findViewById(R.id.txt_tong_thu);
         txtTongChi = view.findViewById(R.id.txt_tong_chi);
         rcvLichSu = view.findViewById(R.id.rcv_lich_su);
+        txtTenNguoiDung = view.findViewById(R.id.txt_ten_nguoi_dung);
 
         rcvLichSu.setLayoutManager(new LinearLayoutManager(getContext()));
 
         danhSachThuChi = new ArrayList<>();
         adapter = new ThuChiAdapter(getContext(), danhSachThuChi);
         rcvLichSu.setAdapter(adapter);
+
+        imgAvatar =view.findViewById(R.id.img_avatar);
+
 
         com.google.android.material.floatingactionbutton.FloatingActionButton fabAdd = view.findViewById(R.id.fab_trangchu_add);
 
@@ -74,7 +82,42 @@ public class TrangChuFragment extends Fragment {
         });
         return view;
     }
+    private void loadAvatar() {
 
+        String avatarPath = requireContext()
+                .getSharedPreferences("USER_DATA",0)
+                .getString(
+                        "avatar_" + maNguoiDung,
+                        ""
+                );
+
+        if (!avatarPath.isEmpty()) {
+
+            imgAvatar.setImageURI(
+                    Uri.fromFile(new java.io.File(avatarPath))
+            );
+
+        } else {
+
+            imgAvatar.setImageResource(R.drawable.img_2);
+        }
+    }
+    private void loadThongTinNguoiDung() {
+
+        if (maNguoiDung.equals("offline_user")) {
+            txtTenNguoiDung.setText("Khách");
+            return;
+        }
+
+        Cursor cursor = dbHelper.getThongTinNguoiDung(maNguoiDung);
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+            String hoTen = cursor.getString(  cursor.getColumnIndexOrThrow(DatabaseHelper.COL_HOTEN) );
+            txtTenNguoiDung.setText(hoTen);
+            cursor.close();
+        }
+    }
     // Hộp thoại xem và sửa trực tiếp
     private void hienThiHopThoaiXemVaSua(ThuChiModel item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -148,6 +191,9 @@ public class TrangChuFragment extends Fragment {
         if (getArguments() != null) {
             maNguoiDung = getArguments().getString("USER_ID", "offline_user");
         }
+
+        loadThongTinNguoiDung();
+        loadAvatar();
         // Mỗi khi quay lại tab Trang Chủ, tải lại dữ liệu mới nhất
         docDuLieuTuSQLite();
     }
@@ -195,16 +241,7 @@ public class TrangChuFragment extends Fragment {
             } while (cursor.moveToNext());
             cursor.close();
         }
-
-
-        // Tính la số dư thực tế trong ví ( tổng thu - tổng chi )
-        double tongThuVinhVien = dbHelper.getTongThuThang(maNguoiDung, ""); // Để chuỗi rỗng để dbHelper tự tính tổng tất cả
-        double tongChiVinhVien = dbHelper.getTongChiThang(maNguoiDung, "");
-        if (tongThuVinhVien == 0 && tongChiVinhVien == 0) {
-            double soDu = tongThu - tongChi;
-        }
-
-        // lấy tổng số dư dựa theo tất cả danh sách đang có
+         // lấy tổng số dư dựa theo tất cả danh sách đang có
         double soDuCacGiaoDich = 0;
         for (ThuChiModel model : danhSachThuChi) {
             if (model.getLoai().equalsIgnoreCase("THU")) {
@@ -227,5 +264,7 @@ public class TrangChuFragment extends Fragment {
         ).show();
 
         adapter.notifyDataSetChanged();
+
+
     }
 }

@@ -61,6 +61,15 @@
                 android:text="user@email.com"
                 android:textColor="#64748B"
                 android:textSize="14sp" />
+            <TextView
+                android:id="@+id/txt_change_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="📷 Đổi ảnh đại diện"
+                android:textColor="#446FEF"
+                android:textStyle="bold"
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <TextView
