@@ -53,8 +53,11 @@
 
 ### 👤 Giao diện tài khoản cá nhân
 <p align="center">
-  <img width="380" alt="Tài khoản 1" src="https://github.com/user-attachments/assets/eb17bf5b-517b-439a-8c39-b6349a8ffeb5" />
-  <img width="380" alt="Tài khoản 2" src="https://github.com/user-attachments/assets/eaa89eb1-5fa0-4c48-95c6-91c6fbdbca32" />
+ 
+  <img width="380"  alt="Tài khoản 1" src="https://github.com/user-attachments/assets/99b8e4db-57b5-4bf0-bf9b-7aadd8e4bf91" />
+
+  <img width="380" alt="Tài khoản 2" src="https://github.com/user-attachments/assets/6e8fad85-b36a-4944-9b56-f4619ca12846" />
+
 </p>
 ## 🚀 Giai đoạn 1: Xây Dựng Giao Diện Gốc
 
