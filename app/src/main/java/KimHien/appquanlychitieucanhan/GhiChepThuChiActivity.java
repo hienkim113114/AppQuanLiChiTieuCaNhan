@@ -29,7 +29,7 @@ public class GhiChepThuChiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ghi_chep_thu_chi);
 
         dbHelper = new DatabaseHelper(this);
-        //Nhận mã người dùng thật được truyền sang từ Fragment
+        //Nhận mã người dùng thật được truyền sang từ Fragment, kiểm tra có user_id ko , ko thì lẫy mặc định user_off
         maNguoiDungHienTai = getIntent().getStringExtra("USER_ID");
         if (maNguoiDungHienTai == null) {
             maNguoiDungHienTai = "offline_user";

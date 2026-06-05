@@ -190,7 +190,7 @@ public class TrangChuFragment extends Fragment {
                     }
                 }
 
-                danhSachThuChi.add(0, new ThuChiModel(id, maNguoiDung, loai, soTien, maDanhMuc, ngay, ghiChu, tenDanhMuc));
+                danhSachThuChi.add( new ThuChiModel(id, maNguoiDung, loai, soTien, maDanhMuc, ngay, ghiChu, tenDanhMuc));
 
             } while (cursor.moveToNext());
             cursor.close();
@@ -220,8 +220,12 @@ public class TrangChuFragment extends Fragment {
         txtTongThu.setText(formatter.format(tongThu) + " đ");          // Tổng thu nhập của riêng tháng này
         txtTongChi.setText(formatter.format(tongChi) + " đ");
 
+        Toast.makeText(
+                getContext(),
+                "Tong giao dich: " + danhSachThuChi.size(),
+                Toast.LENGTH_LONG
+        ).show();
 
-        // Thông báo cho Adapter biết dữ liệu đã thay đổi để vẽ lại danh sách trên màn hình
         adapter.notifyDataSetChanged();
     }
 }
