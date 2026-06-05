@@ -59,6 +59,9 @@
   <img width="380" alt="Tài khoản 2" src="https://github.com/user-attachments/assets/6e8fad85-b36a-4944-9b56-f4619ca12846" />
 
 </p>
+### Báo Cáo 
+https://docs.google.com/document/d/1eNgRAWEVS_0rc90vw-N2By845Vra7erLMhDtxOiS2d4/edit?usp=sharing
+
 ## 🚀 Giai đoạn 1: Xây Dựng Giao Diện Gốc
 
 ### I. Giao Diện Màn Hình Trang Chủ
