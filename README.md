@@ -1,6 +1,61 @@
-#  AppQuanLiChiTieuCaNhan
+# AppQuanLiChiTieuCaNhan
 
+## Kết quả khi chạy ứng dụng
 
+### 🔐 Giao diện đăng ký
+<p align="center">
+  <img width="380" alt="Đăng ký 1" src="https://github.com/user-attachments/assets/e94c8731-150d-4cc8-99e5-d96005b4506c" />
+  <img width="380" alt="Đăng ký 2" src="https://github.com/user-attachments/assets/a6d38dfd-cd60-465c-8499-39d573e20eaf" />
+</p>
+
+---
+
+### 🔑 Giao diện đăng nhập
+<p align="center">
+  <img width="380" alt="Đăng nhập" src="https://github.com/user-attachments/assets/a688faea-05d2-4f39-8412-47574334eea4" />
+</p>
+
+---
+
+### 🏠 Giao diện trang chủ
+<p align="center">
+  <img width="250" alt="Trang chủ 1" src="https://github.com/user-attachments/assets/0532525c-62fb-4783-b68f-fa26b778a9c9" />
+  <img width="250" alt="Trang chủ 2" src="https://github.com/user-attachments/assets/1a679912-6040-453c-99b0-683e229046a7" />
+  <img width="250" alt="Trang chủ 3" src="https://github.com/user-attachments/assets/8bd0b4b0-4ca4-402b-a364-7439a4de7e12" />
+</p>
+
+---
+
+### ➕ Giao diện thêm giao dịch
+<p align="center">
+  <img width="380" alt="Thêm giao dịch" src="https://github.com/user-attachments/assets/1f55c914-7f26-4914-bb65-2b9597dec011" />
+  <img width="380" alt="Thống kê 2" src="https://github.com/user-attachments/assets/c6f1d8f5-7bfa-4679-86f3-274570f9a573" />
+</p>
+
+---
+
+### 📊 Giao diện thống kê
+<p align="center">
+  <img width="380" alt="Thống kê 1" src="https://github.com/user-attachments/assets/df506ecf-f09b-4707-abbc-79be6cbf4cb8" />
+  
+</p>
+
+---
+
+### 💰 Giao diện ngân sách định mức
+<p align="center">
+  <img width="380" alt="Ngân sách 1" src="https://github.com/user-attachments/assets/83b55e86-4e83-4dd0-9933-6065fe9e6e0a" />
+
+  <img width="380" alt="Ngân sách 2" src="https://github.com/user-attachments/assets/3c13aabd-2186-450c-9f08-1baa077ed5b1" />
+</p>
+
+---
+
+### 👤 Giao diện tài khoản cá nhân
+<p align="center">
+  <img width="380" alt="Tài khoản 1" src="https://github.com/user-attachments/assets/eb17bf5b-517b-439a-8c39-b6349a8ffeb5" />
+  <img width="380" alt="Tài khoản 2" src="https://github.com/user-attachments/assets/eaa89eb1-5fa0-4c48-95c6-91c6fbdbca32" />
+</p>
 ## 🚀 Giai đoạn 1: Xây Dựng Giao Diện Gốc
 
 ### I. Giao Diện Màn Hình Trang Chủ
